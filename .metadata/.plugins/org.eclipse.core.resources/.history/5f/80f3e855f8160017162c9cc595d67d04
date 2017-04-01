@@ -21,21 +21,6 @@
 #include "led7seg.h"
 #include "lpc17xx_uart.h"
 
-#define NOTE_PIN_HIGH() GPIO_SetValue(0, 1<<26);
-#define NOTE_PIN_LOW()  GPIO_ClearValue(0, 1<<26);
-
-#define green_On() GPIO_SetValue(2, 1 << 1); //linked to light sensor
-#define green_off() GPIO_ClearValue(2, 1 << 1);
-
-#define blue_On() GPIO_SetValue(0, 1 << 26); //linked to speaker
-#define blue_off() GPIO_ClearValue(0, 1 << 26);
-
-#define red_On() GPIO_SetValue(2, 1 << 0); //link to temp sensor
-#define red_off() GPIO_ClearValue(2, 1 << 0);
-
-#define LOW_LIGHT_WARNING 50
-#define HIGH_TEMP_WARNING 350
-
 static uint8_t barPos = 2;
 
 static uint8_t light_value = 0;
@@ -101,6 +86,21 @@ static void drawOled(uint8_t joyState) {
 		lastY = currY;
 	}
 }
+
+#define NOTE_PIN_HIGH() GPIO_SetValue(0, 1<<26);
+#define NOTE_PIN_LOW()  GPIO_ClearValue(0, 1<<26);
+
+#define green_On() GPIO_SetValue(2, 1 << 1); //linked to light sensor
+#define green_off() GPIO_ClearValue(2, 1 << 1);
+
+#define blue_On() GPIO_SetValue(0, 1 << 26); //linked to speaker
+#define blue_off() GPIO_ClearValue(0, 1 << 26);
+
+#define red_On() GPIO_SetValue(2, 1 << 0); //link to temp sensor
+#define red_off() GPIO_ClearValue(2, 1 << 0);
+
+#define LOW_LIGHT_WARNING 50
+#define HIGH_TEMP_WARNING 310
 
 static uint32_t notes[] = { 2272, // A - 440 Hz
 		2024, // B - 494 Hz
