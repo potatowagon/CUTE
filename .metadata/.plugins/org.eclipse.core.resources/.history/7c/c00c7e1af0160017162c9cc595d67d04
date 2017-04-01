@@ -492,34 +492,6 @@ int toggle_RGB(int rgbFlag) {
 	return rgbFlag;
 }
 
-void display_readings(uint8_t light_value, int8_t x, int8_t y, int8_t z,
-		int32_t temp_value) {
-	//light
-	uint8_t toPrint[50] = { 0 };
-
-	sprintf(toPrint, "light: %u\n", light_value);
-
-	oled_putString(10, 20, (uint8_t *) toPrint, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
-
-	//acc
-	uint8_t toPrint2[50] = { 0 };
-	sprintf(toPrint2, "Acc:(%d,%d,%d)\n", x, y, z);
-
-	oled_putString(10, 35, (uint8_t *) toPrint2, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
-
-	//temp
-	uint8_t toPrint3[50] = { 0 };
-	int temp1 = temp_value / 10;
-	int temp_frac = temp_value % 10;
-	sprintf(toPrint3, "Temp: %d.%d", temp1, temp_frac);
-
-	oled_putString(10, 50, (uint8_t *) toPrint3, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
-
-}
-
 int main(void) {
 
 	int32_t xoff = 0;
@@ -573,12 +545,13 @@ int main(void) {
 	while (1) {
 
 		/*Stable mode*/
-
-		led7seg_setChar('X', FALSE); //clear 7 seg
+		/*clear 7 seg*/
+		led7seg_setChar('X', FALSE);
 		seg = 15;
 
-		Blue_Off()
-		Red_Off()
+		/*blink blue off*/Blue_Off()
+
+		/*blink red off8*/Red_Off()
 
 		uint8_t printStatus[50] = { 0 };
 
@@ -592,11 +565,10 @@ int main(void) {
 
 		monBtnState = toggle_mode_sw4(monBtnState, &Mon_btn);
 
+		/*uart test*/
 		//uart_test();
-
+		/*Monitor mode*/
 		while (monBtnState == 1 || monBtnState == 2) {
-
-			/*monitor mode*/
 
 			clearedScreen = 0;
 
@@ -609,8 +581,9 @@ int main(void) {
 				printf("inside int3\n");
 				int_flag = 0;
 			}
-
 			stopTime = msTicks;
+
+			/*7seg*/
 			// increment this number every 1 sec
 			if ((stopTime - startTime) > 1000) {
 				startTime = msTicks;
@@ -618,36 +591,74 @@ int main(void) {
 				seg = seg % 16;
 
 			}
+
 			led7seg_setChar(segArray[seg], FALSE);
+			/* ####### Light Sensor ###### */
+			/* # */
 
 			light_value = light_read();
 
-			/*accelator*/
+			/* ############# */
+
+			/* ####### Accelerometer and LEDs  ###### */
+			/* # */
+
+			/*Light sensor*/
+			light_value = light_read();
+
 			acc_read(&x, &y, &z);
 			x = x + xoff;
 			y = y + yoff;
 			z = z + zoff;
-			/*------------*/
 
-			/*----acc led move bar----*/
 			if (y < 0) {
 				dir = 1;
 				y = -y;
 			} else {
 				dir = -1;
 			}
-			/*------------------------*/
 
 			if (y > 1 && wait++ > (40 / (1 + (y / 10)))) {
 				moveBar(1, dir);
 				wait = 0;
 			}
 
+			/* # */
+			/* ############################################# */
+
+			/* ####### Temperature sensor  ###### */
+			/* # */
 			temp_value = temp_read();
 
-			if (seg == 5 || seg == 10 || seg == 15) {
+			/* # */
+			/* ############################################# */
 
-				display_readings(light_value, x, y, z, temp_value);
+			if (seg == 5 || seg == 10 || seg == 15) {
+				/*display readings*/
+
+				//light
+				uint8_t toPrint[50] = { 0 };
+
+				sprintf(toPrint, "light: %u\n", light_value);
+
+				oled_putString(10, 20, (uint8_t *) toPrint, OLED_COLOR_WHITE,
+						OLED_COLOR_BLACK);
+
+				//acc
+				uint8_t toPrint2[50] = { 0 };
+				sprintf(toPrint2, "Acc:(%d,%d,%d)\n", x, y, z);
+
+				oled_putString(10, 35, (uint8_t *) toPrint2, OLED_COLOR_WHITE,
+						OLED_COLOR_BLACK);
+
+				//temp
+				uint8_t toPrint3[50] = { 0 };
+				int temp1 = temp_value / 10;
+				int temp_frac = temp_value % 10;
+				sprintf(toPrint3, "Temp: %d.%d", temp1, temp_frac);
+
+				oled_putString(10, 50, (uint8_t *) toPrint3, OLED_COLOR_WHITE,
+						OLED_COLOR_BLACK);
 
 				if (seg == 15) {
 					/*sent to uart*/
@@ -656,14 +667,19 @@ int main(void) {
 
 			}
 
-			/* ------ Joystick and OLED  -------*/
+			/* ####### Joystick and OLED  ###### */
+			/* # */
 
 			state = joystick_read();
 			if (state != 0)
 				drawOled(state);
-			/* -------------------------------- */
 
+			/* # */
+			/* ############################################# */
 			btn1 = (GPIO_ReadValue(2) >> 10) & 0x01;
+
+			/* ############ Trimpot and RGB LED  ########### */
+			/* # */
 
 			if (btn1 == 0) {
 				playSong(song);

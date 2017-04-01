@@ -492,8 +492,7 @@ int toggle_RGB(int rgbFlag) {
 	return rgbFlag;
 }
 
-void display_readings(uint8_t light_value, int8_t x, int8_t y, int8_t z,
-		int32_t temp_value) {
+void display_readings(uint8_t light_value, int8_t x, int8_t y, int8_t z,int32_t temp_value) {
 	//light
 	uint8_t toPrint[50] = { 0 };
 
@@ -622,6 +621,9 @@ int main(void) {
 
 			light_value = light_read();
 
+			/*Light sensor*/
+			light_value = light_read();
+
 			/*accelator*/
 			acc_read(&x, &y, &z);
 			x = x + xoff;
@@ -629,14 +631,14 @@ int main(void) {
 			z = z + zoff;
 			/*------------*/
 
-			/*----acc led move bar----*/
+			/*acc led move bar*/
 			if (y < 0) {
 				dir = 1;
 				y = -y;
 			} else {
 				dir = -1;
 			}
-			/*------------------------*/
+			/*-----------------*/
 
 			if (y > 1 && wait++ > (40 / (1 + (y / 10)))) {
 				moveBar(1, dir);
@@ -656,14 +658,19 @@ int main(void) {
 
 			}
 
-			/* ------ Joystick and OLED  -------*/
+			/* ####### Joystick and OLED  ###### */
+			/* # */
 
 			state = joystick_read();
 			if (state != 0)
 				drawOled(state);
-			/* -------------------------------- */
 
+			/* # */
+			/* ############################################# */
 			btn1 = (GPIO_ReadValue(2) >> 10) & 0x01;
+
+			/* ############ Trimpot and RGB LED  ########### */
+			/* # */
 
 			if (btn1 == 0) {
 				playSong(song);
