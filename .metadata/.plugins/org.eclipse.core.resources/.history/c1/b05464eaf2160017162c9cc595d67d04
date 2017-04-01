@@ -520,22 +520,6 @@ void display_readings(uint8_t light_value, int8_t x, int8_t y, int8_t z,
 
 }
 
-void print_MONITOR_MODE(void) {
-	uint8_t printStatus[50] = { 0 };
-	sprintf(printStatus, "MONITOR MODE");
-	oled_putString(10, 5, (uint8_t *) printStatus, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
-
-}
-
-void print_Powered_On(void) {
-	uint8_t printStatus[50] = { 0 };
-	sprintf(printStatus, "Powered ON");
-	oled_putString(10, 5, (uint8_t *) printStatus, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
-
-}
-
 int main(void) {
 
 	int32_t xoff = 0;
@@ -596,12 +580,15 @@ int main(void) {
 		Blue_Off()
 		Red_Off()
 
+		uint8_t printStatus[50] = { 0 };
+
 		if (clearedScreen == 0) {
 			oled_clearScreen(OLED_COLOR_BLACK);
 			clearedScreen = 1;
 		}
-
-		print_Powered_On();
+		sprintf(printStatus, "Powered ON");
+		oled_putString(10, 5, (uint8_t *) printStatus, OLED_COLOR_WHITE,
+				OLED_COLOR_BLACK);
 
 		monBtnState = toggle_mode_sw4(monBtnState, &Mon_btn);
 
@@ -609,9 +596,14 @@ int main(void) {
 
 		while (monBtnState == 1 || monBtnState == 2) {
 
-			print_MONITOR_MODE();
+			/*monitor mode*/
 
 			clearedScreen = 0;
+
+			uint8_t printStatus[50] = { 0 };
+			sprintf(printStatus, "MONITOR MODE");
+			oled_putString(10, 5, (uint8_t *) printStatus, OLED_COLOR_WHITE,
+					OLED_COLOR_BLACK);
 
 			if (int_flag == 1) {
 				printf("inside int3\n");
@@ -671,7 +663,7 @@ int main(void) {
 				drawOled(state);
 			/* -------------------------------- */
 
-			btn1 = (GPIO_ReadValue(2) >> 10) & 0x01; //unused
+			btn1 = (GPIO_ReadValue(2) >> 10) & 0x01;
 
 			if (btn1 == 0) {
 				playSong(song);
