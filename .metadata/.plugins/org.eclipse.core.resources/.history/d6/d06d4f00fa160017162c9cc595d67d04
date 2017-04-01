@@ -27,14 +27,14 @@
 #define green_On() GPIO_SetValue(2, 1 << 1); //linked to light sensor
 #define green_off() GPIO_ClearValue(2, 1 << 1);
 
-#define blue_on() GPIO_SetValue(0, 1 << 26); //linked to speaker
+#define blue_On() GPIO_SetValue(0, 1 << 26); //linked to speaker
 #define blue_off() GPIO_ClearValue(0, 1 << 26);
 
 #define red_on() GPIO_SetValue(2, 1 << 0); //link to temp sensor
 #define red_off() GPIO_ClearValue(2, 1 << 0);
 
 #define LOW_LIGHT_WARNING 50
-#define HIGH_TEMP_WARNING 330
+#define HIGH_TEMP_WARNING 350
 
 static uint8_t barPos = 2;
 
@@ -615,9 +615,8 @@ int main(void) {
 
 			clearedScreen = 0;
 
-			if (siren_flag == 1) {         //call for help
+			if (siren_flag == 1) {
 				printf("inside int3\n");
-				playSong(song);
 				siren_flag = 0;
 			}
 
@@ -684,10 +683,11 @@ int main(void) {
 				drawOled(state);
 			/* -------------------------------- */
 
-			/*btn1 = (GPIO_ReadValue(2) >> 10) & 0x01;
-			if (btn1 == 1) {
+			btn1 = (GPIO_ReadValue(2) >> 10) & 0x01; //call for help
+
+			if (siren_flag == 1) {
 				playSong(song);
-			}*/
+			}
 
 			Timer0_Wait(1);
 

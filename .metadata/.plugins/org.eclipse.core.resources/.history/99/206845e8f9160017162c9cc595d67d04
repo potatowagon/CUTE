@@ -27,14 +27,14 @@
 #define green_On() GPIO_SetValue(2, 1 << 1); //linked to light sensor
 #define green_off() GPIO_ClearValue(2, 1 << 1);
 
-#define blue_on() GPIO_SetValue(0, 1 << 26); //linked to speaker
+#define blue_On() GPIO_SetValue(0, 1 << 26); //linked to speaker
 #define blue_off() GPIO_ClearValue(0, 1 << 26);
 
-#define red_on() GPIO_SetValue(2, 1 << 0); //link to temp sensor
+#define red_On() GPIO_SetValue(2, 1 << 0); //link to temp sensor
 #define red_off() GPIO_ClearValue(2, 1 << 0);
 
 #define LOW_LIGHT_WARNING 50
-#define HIGH_TEMP_WARNING 330
+#define HIGH_TEMP_WARNING 350
 
 static uint8_t barPos = 2;
 
@@ -393,7 +393,7 @@ void SysTick_Handler(void) {
 	msTicks++;
 }
 
-static int siren_flag = 0;
+static int int_flag = 0;
 
 void EINT3_IRQHandler(void) {
 	// SW3
@@ -401,7 +401,7 @@ void EINT3_IRQHandler(void) {
 	printf("inside int3\n");
 	LPC_GPIOINT ->IO0IntClr |= 1 << 4;
 
-	siren_flag = 1;
+	int_flag = 1;
 
 }
 
@@ -528,7 +528,7 @@ void print_MONITOR_MODE(void) {
 
 }
 
-void print_Powered_on(void) {
+void print_Powered_On(void) {
 	uint8_t printStatus[50] = { 0 };
 	sprintf(printStatus, "Powered ON");
 	oled_putString(10, 5, (uint8_t *) printStatus, OLED_COLOR_WHITE,
@@ -603,7 +603,7 @@ int main(void) {
 			clearedScreen = 1;
 		}
 
-		print_Powered_on();
+		print_Powered_On();
 
 		monBtnState = toggle_mode_sw4(monBtnState, &Mon_btn);
 
@@ -615,10 +615,9 @@ int main(void) {
 
 			clearedScreen = 0;
 
-			if (siren_flag == 1) {         //call for help
+			if (int_flag == 1) {
 				printf("inside int3\n");
-				playSong(song);
-				siren_flag = 0;
+				int_flag = 0;
 			}
 
 			stopTime = msTicks;
@@ -656,14 +655,13 @@ int main(void) {
 
 			temp_value = temp_read();
 
+
 			if (light_value <= LOW_LIGHT_WARNING) {
-				blue_on()
-				;
+				blue_On();
 			}
 
 			if (temp_value >= HIGH_TEMP_WARNING) {
-				red_on()
-				;
+				red_On();
 			}
 
 			if (seg == 5 || seg == 10 || seg == 15) {
@@ -684,10 +682,11 @@ int main(void) {
 				drawOled(state);
 			/* -------------------------------- */
 
-			/*btn1 = (GPIO_ReadValue(2) >> 10) & 0x01;
-			if (btn1 == 1) {
+			btn1 = (GPIO_ReadValue(2) >> 10) & 0x01; //unused
+
+			if (btn1 == 0) {
 				playSong(song);
-			}*/
+			}
 
 			Timer0_Wait(1);
 
