@@ -46,8 +46,6 @@ bool pre_Mode_Btn = true;
 
 /*Interrupt Handler*/
 void SysTick_Handler(void) {// This function is called every 1ms
-	/*1ms counter*/
-	msTicks++;
 
 	/*mode switch*/
 	mode_Btn = (GPIO_ReadValue(1) >> 31) & 0x01;
@@ -65,6 +63,9 @@ void SysTick_Handler(void) {// This function is called every 1ms
 	/*set 200ms flag*/
 	ms_Flag_200 = (msTicks-ms_200_Time >200) ? true : ms_Flag_200;
 	ms_200_Time = (msTicks-ms_200_Time >200) ? msTicks : ms_200_Time;
+
+	/*1ms counter*/
+	msTicks++;
 }
 
 void EINT3_IRQHandler(void) {
