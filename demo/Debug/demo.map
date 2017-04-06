@@ -1566,27 +1566,27 @@ OUTPUT(demo.axf elf32-littlearm)
  .debug_ranges  0x000006d0      0x140 c:/nxp/lpcxpresso_6.1.4_194/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_newlib_semihost.a(syscalls.o)
  .debug_ranges  0x00000810       0x10 c:/nxp/lpcxpresso_6.1.4_194/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_newlib_semihost.a(_cr_check_heap.o)
 
-.debug_line     0x00000000     0x6337
+.debug_line     0x00000000     0x6333
  .debug_line    0x00000000      0x36c ./src/cr_startup_lpc17.o
- .debug_line    0x0000036c      0x63f ./src/main.o
- .debug_line    0x000009ab      0x40b C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_CMSISv1p30_LPC17xx\Debug\libCMSISv1p30_LPC17xx.a(system_LPC17xx.o)
- .debug_line    0x00000db6      0x4ee C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(acc.o)
- .debug_line    0x000012a4      0x469 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(led7seg.o)
- .debug_line    0x0000170d      0x59a C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(light.o)
- .debug_line    0x00001ca7      0x773 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(oled.o)
- .debug_line    0x0000241a      0x585 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(pca9532.o)
- .debug_line    0x0000299f      0x467 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(temp.o)
- .debug_line    0x00002e06       0x86 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(font5x7.o)
- .debug_line    0x00002e8c      0x5e6 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_gpio.o)
- .debug_line    0x00003472      0x901 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_i2c.o)
- .debug_line    0x00003d73      0x382 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_libcfg_default.o)
- .debug_line    0x000040f5      0x465 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_pinsel.o)
- .debug_line    0x0000455a      0x834 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_ssp.o)
- .debug_line    0x00004d8e      0xb80 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_uart.o)
- .debug_line    0x0000590e      0x4c6 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_clkpwr.o)
- .debug_line    0x00005dd4       0xc0 c:/nxp/lpcxpresso_6.1.4_194/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_newlib_semihost.a(_cr_sbrk.o)
- .debug_line    0x00005e94      0x44f c:/nxp/lpcxpresso_6.1.4_194/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_newlib_semihost.a(syscalls.o)
- .debug_line    0x000062e3       0x54 c:/nxp/lpcxpresso_6.1.4_194/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_newlib_semihost.a(_cr_check_heap.o)
+ .debug_line    0x0000036c      0x63b ./src/main.o
+ .debug_line    0x000009a7      0x40b C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_CMSISv1p30_LPC17xx\Debug\libCMSISv1p30_LPC17xx.a(system_LPC17xx.o)
+ .debug_line    0x00000db2      0x4ee C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(acc.o)
+ .debug_line    0x000012a0      0x469 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(led7seg.o)
+ .debug_line    0x00001709      0x59a C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(light.o)
+ .debug_line    0x00001ca3      0x773 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(oled.o)
+ .debug_line    0x00002416      0x585 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(pca9532.o)
+ .debug_line    0x0000299b      0x467 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(temp.o)
+ .debug_line    0x00002e02       0x86 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_EaBaseBoard\Debug\libLib_EaBaseBoard.a(font5x7.o)
+ .debug_line    0x00002e88      0x5e6 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_gpio.o)
+ .debug_line    0x0000346e      0x901 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_i2c.o)
+ .debug_line    0x00003d6f      0x382 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_libcfg_default.o)
+ .debug_line    0x000040f1      0x465 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_pinsel.o)
+ .debug_line    0x00004556      0x834 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_ssp.o)
+ .debug_line    0x00004d8a      0xb80 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_uart.o)
+ .debug_line    0x0000590a      0x4c6 C:\Users\Sherry Wong\Desktop\EE2024\assignment_2\Lib_MCU\Debug\libLib_MCU.a(lpc17xx_clkpwr.o)
+ .debug_line    0x00005dd0       0xc0 c:/nxp/lpcxpresso_6.1.4_194/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_newlib_semihost.a(_cr_sbrk.o)
+ .debug_line    0x00005e90      0x44f c:/nxp/lpcxpresso_6.1.4_194/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_newlib_semihost.a(syscalls.o)
+ .debug_line    0x000062df       0x54 c:/nxp/lpcxpresso_6.1.4_194/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_newlib_semihost.a(_cr_check_heap.o)
 
 .debug_macinfo  0x00000000    0x8e896
  .debug_macinfo
