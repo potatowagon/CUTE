@@ -45,21 +45,21 @@ bool mode_Btn = true;
 bool pre_Mode_Btn = true;
 
 /*Interrupt Handler*/
-void SysTick_Handler(void) { // This function is called every 1ms
+void SysTick_Handler(void) {// This function is called every 1ms
 	/*1ms counter*/
 	msTicks++;
 
 	/*mode switch*/
 	mode_Btn = (GPIO_ReadValue(1) >> 31) & 0x01;
-	if (mode_Btn == true && pre_Mode_Btn == false) {
-		monitor_Mode = (monitor_Mode) ? false : true;
+	if(mode_Btn == true && pre_Mode_Btn == false){
+		monitor_Mode = (monitor_Mode) ? false: true;
 		sec_Time = msTicks;
 	}
 	pre_Mode_Btn = mode_Btn;
 
 	/*set 200ms flag*/
-	ms_Flag_200 = (msTicks - ms_200_Time > 200) ? true : ms_Flag_200;
-	ms_200_Time = (msTicks - ms_200_Time > 200) ? msTicks : ms_200_Time;
+	ms_Flag_200 = (msTicks-ms_200_Time >200) ? true : ms_Flag_200;
+	ms_200_Time = (msTicks-ms_200_Time >200) ? msTicks : ms_200_Time;
 }
 
 void EINT3_IRQHandler(void) {
@@ -69,7 +69,7 @@ void EINT3_IRQHandler(void) {
 	siren_flag = 1;
 }
 
-static uint32_t getTicks(void) { //get current tick (time)
+static uint32_t getTicks(void) {//get current tick (time)
 	return msTicks;
 }
 
@@ -93,8 +93,8 @@ static void init_ssp(void) {
 	PINSEL_ConfigPin(&PinCfg);
 
 	SSP_ConfigStructInit(&SSP_ConfigStruct);
-	SSP_Init(LPC_SSP1, &SSP_ConfigStruct); // Initialize SSP peripheral with parameter given in structure above
-	SSP_Cmd(LPC_SSP1, ENABLE); // Enable SSP peripheral
+	SSP_Init(LPC_SSP1, &SSP_ConfigStruct);// Initialize SSP peripheral with parameter given in structure above
+	SSP_Cmd(LPC_SSP1, ENABLE);// Enable SSP peripheral
 }
 
 /*Initialize GPIO*/
@@ -147,7 +147,7 @@ static void init_i2c(void) {
 	PINSEL_ConfigPin(&PinCfg);
 	PinCfg.Pinnum = 11;
 	PINSEL_ConfigPin(&PinCfg);
-	I2C_Init(LPC_I2C2, 100000);	// Initialize I2C peripheral
+	I2C_Init(LPC_I2C2, 100000);// Initialize I2C peripheral
 	I2C_Cmd(LPC_I2C2, ENABLE);/* Enable I2C1 operation */
 }
 
@@ -167,9 +167,9 @@ void init_uart(void) {
 	uartCfg.Databits = UART_DATABIT_8;
 	uartCfg.Parity = UART_PARITY_NONE;
 	uartCfg.Stopbits = UART_STOPBIT_1;
-	pinsel_uart3();	//pin select for uart3;
-	UART_Init(LPC_UART3, &uartCfg);	//supply power & setup working parameters for uart3
-	UART_TxCmd(LPC_UART3, ENABLE);	//enable transmit for uart3
+	pinsel_uart3();//pin select for uart3;
+	UART_Init(LPC_UART3, &uartCfg);//supply power & setup working parameters for uart3
+	UART_TxCmd(LPC_UART3, ENABLE);//enable transmit for uart3
 }
 
 /*Initializers*/
@@ -194,29 +194,23 @@ void init_all(void) {
 	NVIC_EnableIRQ(EINT3_IRQn);
 }
 
-void display_readings(uint8_t light_value, int8_t x, int8_t y, int8_t z,
-		int32_t temp_value) {
+void display_readings(uint8_t light_value, int8_t x, int8_t y, int8_t z, int32_t temp_value) {
 	//light
 	uint8_t toPrint[50] = { 0 };
 	sprintf(toPrint, "L: %u    \n", light_value);
-	oled_putString(10, 15, (uint8_t *) toPrint, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
+	oled_putString(10, 15, (uint8_t *) toPrint, OLED_COLOR_WHITE, OLED_COLOR_BLACK);
 	//temp
-	sprintf(toPrint, "T: %0.2f    \n", (double) temp_value / 10);
-	oled_putString(10, 25, (uint8_t *) toPrint, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
+	sprintf(toPrint, "T: %0.2f    \n", (double)temp_value/10);
+	oled_putString(10, 25, (uint8_t *) toPrint, OLED_COLOR_WHITE, OLED_COLOR_BLACK);
 	//AX
-	sprintf(toPrint, "Ax: %0.2f    \n", (double) x);
-	oled_putString(10, 35, (uint8_t *) toPrint, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
+	sprintf(toPrint, "Ax: %0.2f    \n", (double)x);
+	oled_putString(10, 35, (uint8_t *) toPrint, OLED_COLOR_WHITE, OLED_COLOR_BLACK);
 	//AY
-	sprintf(toPrint, "Ay: %0.2f    \n", (double) y);
-	oled_putString(10, 45, (uint8_t *) toPrint, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
+	sprintf(toPrint, "Ay: %0.2f    \n", (double)y);
+	oled_putString(10, 45, (uint8_t *) toPrint, OLED_COLOR_WHITE, OLED_COLOR_BLACK);
 	//AZ
-	sprintf(toPrint, "Az: %0.2f    \n", (double) z);
-	oled_putString(10, 55, (uint8_t *) toPrint, OLED_COLOR_WHITE,
-			OLED_COLOR_BLACK);
+	sprintf(toPrint, "Az: %0.2f    \n", (double)z);
+	oled_putString(10, 55, (uint8_t *) toPrint, OLED_COLOR_WHITE, OLED_COLOR_BLACK);
 }
 /*OLED Display*/
 
@@ -233,10 +227,7 @@ int main(void) {
 
 	uint16_t transmit_Count = 0;
 	uint8_t transmit_Msg[100] = { 0 };
-
-	uint32_t stopTime;
-	uint32_t startTime;
-
+	//char L, T, Ax, Ay, Az;
 	char segArray[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
 			'8', 'C', '0', 'E', 'F' };
 
@@ -250,31 +241,27 @@ int main(void) {
 	oled_clearScreen(OLED_COLOR_BLACK);
 
 	while (1) {
-		if (pre_Monitor_Mode != monitor_Mode) {
+		if(pre_Monitor_Mode != monitor_Mode){
 			/*OLED SCREEN*/
 			oled_clearScreen(OLED_COLOR_BLACK);
-			if (monitor_Mode) {
+			if(monitor_Mode){
 				sprintf(transmit_Msg, "MONITOR");
-				oled_putString(30, 5, (uint8_t *) transmit_Msg,
-						OLED_COLOR_WHITE, OLED_COLOR_BLACK);
+				oled_putString(30, 5, (uint8_t *) transmit_Msg, OLED_COLOR_WHITE, OLED_COLOR_BLACK);
 				/*UART MSG*/
 				sprintf(transmit_Msg, "Entering MONITOR MODE.\r\n");
-				UART_Send(LPC_UART3, (uint8_t *) transmit_Msg,
-						strlen(transmit_Msg), BLOCKING);
+				UART_Send(LPC_UART3, (uint8_t *) transmit_Msg, strlen(transmit_Msg), BLOCKING);
 			}
 			pre_Monitor_Mode = monitor_Mode;
 		}
 		/*Stable mode*/
-		if (monitor_Mode == false) {
+		if(monitor_Mode == false){
 			led7seg_setChar('X', FALSE); //clear 7 seg
 			seg = 0;
-			blue_off()
-			;
-			red_off()
-			;
+			blue_off();
+			red_off();
 		}
 		/*Monitor mode*/
-		if (monitor_Mode) {
+		if (monitor_Mode){
 			if (siren_flag == 1) {         //call for help
 				printf("inside int3\n");
 				//playSong(song);
@@ -282,58 +269,41 @@ int main(void) {
 			}
 
 			/*200ms loop*/
-			if (ms_Flag_200) {
-				light_value = light_read(); /*read Light*/
-				acc_read(&x, &y, &z); /*read accelerometer*/
+			if(ms_Flag_200){
+				light_value = light_read();	/*read Light*/
+				acc_read(&x, &y, &z);	/*read accelerometer*/
 				x = x + xoff;
 				y = y + yoff;
 				z = z + zoff;
-				temp_value = temp_read(); /*read temperature*/
-				if (light_value <= LOW_LIGHT_WARNING) {
-					blue_on()
-					;
-				} else {
-					blue_off()
-					;
-				}
+				temp_value = temp_read();	/*read temperature*/
+				if(light_value <= LOW_LIGHT_WARNING){
+					blue_on();}
+				else{blue_off();}
 				if (temp_value >= HIGH_TEMP_WARNING) {
-					red_on()
-					;
-				}
+					red_on();}
+				else{red_off();}
 				ms_Flag_200 = false;
 			}
 
 			/*1sec loop*/
-			stopTime = msTicks;
-			// increment this number every 1 sec
-			if ((stopTime - startTime) > 1000) {
-				startTime = msTicks;
-				seg++;
-				seg = seg % 16;
-			}
-			led7seg_setChar(segArray[seg], FALSE);
-
-			if (seg == 5 || seg == 10 || seg == 15) {
-				display_readings(light_value, x, y, z, temp_value);
-				if (seg == 15) {
-					/*sent to uart*/
-					transmit_Count++;
+			if(sec_Flag){
+				led7seg_setChar(segArray[seg], FALSE);
+				if (seg == 5 || seg == 10 || seg == 15) {
+					display_readings(light_value, x, y, z, temp_value);
+					if (seg == 15) {
+						/*sent to uart*/
+						transmit_Count++;
 //						L = (light_value >= 0) ? '+': "-";
 //						T = (temp_value >= 0) ? '+': "-";
 //						Ax = (x >= 0) ? '+': "-";
 //						Ay = (y >= 0) ? '+': "-";
 //						Az = = (z >= 0) ? '+': "-";
-					sprintf(transmit_Msg,
-							"%u%u%u_-_T%0.2f_L%u_AX%0.2f_AY%0.2f_AZ%0.2f\r\n",
-							(transmit_Count / 100),
-							((transmit_Count / 10) % 10), (transmit_Count % 10),
-							((double) temp_value / 10), light_value, (double) x,
-							(double) y, (double) z);
-					UART_Send(LPC_UART3, (uint8_t *) transmit_Msg,
-							strlen(transmit_Msg), BLOCKING);
-				}
+						sprintf(transmit_Msg, "%u%u%u_-_T%0.2f_L%u_AX%0.2f_AY%0.2f_AZ%0.2f\r\n", (transmit_Count/100), ((transmit_Count/10)%10), (transmit_Count%10),((double)temp_value/10),light_value,(double)x,(double)y,(double)z);
+						UART_Send(LPC_UART3, (uint8_t *) transmit_Msg, strlen(transmit_Msg), BLOCKING);
+						}
+					}
+				sec_Flag = false;
 			}
-			sec_Flag = false;
 		}
 	}
 }

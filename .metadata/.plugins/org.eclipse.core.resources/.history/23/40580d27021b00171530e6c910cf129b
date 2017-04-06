@@ -299,6 +299,9 @@ int main(void) {
 				if (temp_value >= HIGH_TEMP_WARNING) {
 					red_on()
 					;
+				} else {
+					red_off()
+					;
 				}
 				ms_Flag_200 = false;
 			}
