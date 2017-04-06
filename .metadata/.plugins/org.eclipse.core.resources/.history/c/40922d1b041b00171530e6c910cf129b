@@ -35,22 +35,22 @@ static int32_t temp_value = 0;
 static int siren_flag = 0;
 static uint8_t seg = 0;
 
+bool sec_Flag = false;
+static uint32_t sec_Time = 0;
 bool ms_Flag_200 = false;
 static uint32_t ms_200_Time = 0;
 bool monitor_Mode = false;
 bool pre_Monitor_Mode = false;
 bool mode_Btn = true;
 bool pre_Mode_Btn = true;
-static uint32_t stopTime;
-static uint32_t startTime;
 
 void mode_switch(void) {
 	/*mode switch*/
-	mode_Btn = (GPIO_ReadValue(1) >> 31) & 0x01;
-	if (mode_Btn == true && pre_Mode_Btn == false) {
-		monitor_Mode = (monitor_Mode) ? false : true;
-	}
-	pre_Mode_Btn = mode_Btn;
+		mode_Btn = (GPIO_ReadValue(1) >> 31) & 0x01;
+		if (mode_Btn == true && pre_Mode_Btn == false) {
+			monitor_Mode = (monitor_Mode) ? false : true;
+		}
+		pre_Mode_Btn = mode_Btn;
 }
 
 /*Interrupt Handler*/
@@ -221,19 +221,6 @@ void display_readings(uint8_t light_value, int8_t x, int8_t y, int8_t z,
 }
 /*OLED Display*/
 
-void sec_counter_7seg(void) {
-	char segArray[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
-				'8', 'C', '0', 'E', 'F' };
-	stopTime = msTicks;
-	// increment this number every 1 sec
-	if ((stopTime - startTime) > 1000) {
-		startTime = msTicks;
-		seg++;
-		seg = seg % 16;
-	}
-	led7seg_setChar(segArray[seg], FALSE);
-}
-
 int main(void) {
 	init_all();
 
@@ -247,6 +234,12 @@ int main(void) {
 
 	uint16_t transmit_Count = 0;
 	uint8_t transmit_Msg[100] = { 0 };
+
+	uint32_t stopTime;
+	uint32_t startTime;
+
+	char segArray[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
+			'8', 'C', '0', 'E', 'F' };
 
 	// Assume base board in zero-g position when reading first value.
 	acc_read(&x, &y, &z);
@@ -281,7 +274,6 @@ int main(void) {
 			;
 			red_off()
 			;
-			seg=15;
 		}
 		/*Monitor mode*/
 		if (monitor_Mode) {
@@ -314,7 +306,14 @@ int main(void) {
 			}
 
 			/*1sec loop*/
-			sec_counter_7seg();
+			stopTime = msTicks;
+			// increment this number every 1 sec
+			if ((stopTime - startTime) > 1000) {
+				startTime = msTicks;
+				seg++;
+				seg = seg % 16;
+			}
+			led7seg_setChar(segArray[seg], FALSE);
 
 			if (seg == 5 || seg == 10 || seg == 15) {
 				display_readings(light_value, x, y, z, temp_value);
