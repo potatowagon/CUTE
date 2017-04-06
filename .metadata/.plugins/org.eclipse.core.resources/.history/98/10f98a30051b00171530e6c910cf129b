@@ -58,8 +58,6 @@ void SysTick_Handler(void) { // This function is called every 1ms
 	/*1ms counter*/
 	msTicks++;
 
-	mode_switch();
-
 	/*set 200ms flag*/
 	ms_Flag_200 = (msTicks - ms_200_Time > 200) ? true : ms_Flag_200;
 	ms_200_Time = (msTicks - ms_200_Time > 200) ? msTicks : ms_200_Time;
@@ -260,7 +258,7 @@ int main(void) {
 	oled_clearScreen(OLED_COLOR_BLACK);
 
 	while (1) {
-
+		mode_switch();
 		if (pre_Monitor_Mode != monitor_Mode) {
 			/*OLED SCREEN*/
 			oled_clearScreen(OLED_COLOR_BLACK);
