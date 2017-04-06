@@ -57,6 +57,11 @@ void SysTick_Handler(void) {// This function is called every 1ms
 	}
 	pre_Mode_Btn = mode_Btn;
 
+	/*set 1sec flag*/
+	sec_Flag = (msTicks-sec_Time >1000) ? true : sec_Flag;
+	seg = (msTicks-sec_Time >1000) ? ((seg+1) % 16) : seg;
+	sec_Time = (msTicks-sec_Time >1000) ? msTicks : sec_Time;
+
 	/*set 200ms flag*/
 	ms_Flag_200 = (msTicks-ms_200_Time >200) ? true : ms_Flag_200;
 	ms_200_Time = (msTicks-ms_200_Time >200) ? msTicks : ms_200_Time;
